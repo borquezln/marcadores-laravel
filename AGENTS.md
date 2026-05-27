@@ -2,9 +2,7 @@
 
 ## Objetivo
 
-Reconstruir este repositorio como una nueva aplicación Laravel moderna para gestionar y visualizar marcadores en un mapa.
-
-El sistema dentro de `/legacy` queda archivado y debe usarse solo como referencia funcional: flujos, campos, reglas de negocio visibles y comportamiento esperado. No hay requisito de compatibilidad hacia atrás.
+Reconstruir el repositorio legacy como una nueva aplicación Laravel moderna para gestionar y visualizar marcadores en un mapa.
 
 ## Principios
 
@@ -20,9 +18,11 @@ El sistema dentro de `/legacy` queda archivado y debe usarse solo como referenci
 - Blade.
 - Tailwind CSS si el instalador o starter elegido lo incluye.
 - Leaflet para mapas.
-- MySQL o MariaDB.
+- MySQL.
 
 ## Uso Del Legacy
+
+El sistema dentro de `/legacy` queda archivado y debe usarse solo como referencia funcional. No hay requisito de compatibilidad hacia atrás.
 
 `/legacy` sirve para entender:
 
@@ -48,7 +48,7 @@ Preferir herramientas nativas de Laravel:
 
 - rutas web en `routes/web.php`;
 - controladores simples;
-- modelos Eloquent;
+- relaciones Eloquent simples y convencionales;
 - migraciones y seeders;
 - Form Requests cuando la validación crece;
 - Policies o middleware sencillo para autorización;
@@ -71,39 +71,28 @@ Evitar salvo necesidad clara:
 - Usar Blade renderizado desde servidor.
 - Usar JavaScript mínimo y localizado.
 - Usar Leaflet para el mapa y sus marcadores.
+- Leaflet debe integrarse mediante JavaScript localizado y simple.
+- Evitar capas frontend complejas salvo necesidad real.
 - Evitar frameworks SPA.
 - Evitar dashboards pesados o interfaces de marketing.
 - Priorizar formularios claros, tablas simples, filtros útiles y navegación directa.
 
 ## Modelado Inicial
 
-Preferir una tabla principal `markers` con relaciones simples:
+El dominio inicial se limita deliberadamente a `users` y `markers`.
 
-- `users`;
-- `roles`;
-- `markers`;
-- `marker_types`;
-- `marker_statuses`;
-- opcionalmente `marker_contacts` si los contactos de puestos lo justifican.
-
-No replicar automáticamente las tablas legacy `carteles`, `locales` y `puestos` como tablas separadas. Solo separarlas si la nueva implementación demuestra una necesidad concreta.
+No agregar nuevas tablas, catálogos o relaciones salvo que resuelvan un problema funcional concreto ya validado.
 
 ## Roles
 
-Mantener roles simples:
-
-- `admin`: administra usuarios, marcadores y mapa.
-- `editor`: crea y edita marcadores.
-- `viewer`: consulta el mapa.
-
-Implementar permisos de forma directa y comprensible. No incorporar un paquete de roles/permisos al inicio.
+Mantener roles simples implementados como strings en users.
 
 ## Orden De Trabajo
 
 1. Mantener `/legacy` intacto como archivo de referencia.
 2. Crear una app Laravel limpia en la raíz del repositorio.
-3. Configurar autenticación básica.
-4. Crear migraciones, modelos y seeders mínimos.
+3. Crear migraciones, modelos y seeders mínimos.
+4. Configurar autenticación básica.
 5. Implementar roles simples.
 6. Implementar CRUD de markers.
 7. Implementar mapa con Leaflet y filtros básicos.
