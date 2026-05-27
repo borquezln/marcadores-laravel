@@ -16,7 +16,7 @@ El sistema dentro de `/legacy` queda archivado y debe usarse solo como referenci
 
 ## Stack
 
-- Laravel 12.
+- Laravel 13.
 - Blade.
 - Tailwind CSS si el instalador o starter elegido lo incluye.
 - Leaflet para mapas.
