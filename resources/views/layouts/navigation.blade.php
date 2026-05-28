@@ -1,3 +1,7 @@
+@php
+    $user = Auth::user();
+@endphp
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,6 +19,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if ($user?->canViewMap())
+                        <x-nav-link :href="route('map.index')" :active="request()->routeIs('map.*')">
+                            {{ __('Mapa') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +80,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if ($user?->canViewMap())
+                <x-responsive-nav-link :href="route('map.index')" :active="request()->routeIs('map.*')">
+                    {{ __('Mapa') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

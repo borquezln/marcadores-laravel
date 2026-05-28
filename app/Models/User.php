@@ -100,4 +100,19 @@ class User extends Authenticatable
     {
         return $this->status === self::STATUS_ACTIVE;
     }
+
+    public function canManageUsers(): bool
+    {
+        return $this->isAdmin();
+    }
+
+    public function canManageMarkers(): bool
+    {
+        return $this->isAdmin() || $this->isEditor();
+    }
+
+    public function canViewMap(): bool
+    {
+        return $this->isActive();
+    }
 }
