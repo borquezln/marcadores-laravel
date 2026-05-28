@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -50,6 +51,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = Auth::user();
+
+        if ($user instanceof User && ! $user->isActive()) {
+            Auth::guard('web')->logout();
+
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => $this->inactiveAccountMessage($user),
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
@@ -82,5 +95,14 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+    }
+
+    private function inactiveAccountMessage(User $user): string
+    {
+        return match ($user->status) {
+            User::STATUS_PENDING => 'Tu cuenta esta pendiente de aprobacion.',
+            User::STATUS_DISABLED => 'Tu cuenta esta deshabilitada.',
+            default => 'Tu cuenta no esta habilitada para acceder.',
+        };
     }
 }
