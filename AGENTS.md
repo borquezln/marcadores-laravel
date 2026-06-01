@@ -87,24 +87,27 @@ No agregar nuevas tablas, catálogos o relaciones salvo que resuelvan un problem
 
 - admin puede visualizar y administrar todos los markers;
 - editor puede visualizar todos los markers y administrar únicamente los propios;
-- viewer no administra markers.
+- viewer puede visualizar markers en el mapa, pero no administrarlos.
 
 ## Roles
 
 Mantener roles simples implementados como strings en users.
 
-## Orden De Trabajo
+## Estado De Trabajo
 
-1. Mantener `/legacy` intacto como archivo de referencia.
-2. Crear una app Laravel limpia en la raíz del repositorio.
-3. Crear migraciones, modelos y seeders mínimos.
-4. Configurar autenticación básica.
-5. Implementar roles simples.
-6. Implementar CRUD de markers.
-7. Agregar pruebas para autenticación, roles y CRUD principal.
-8. Implementar mapa con Leaflet y filtros básicos.
-9. Implementar administración mínima de usuarios.
-10. Agregar pruebas para autenticación, roles y CRUD principal.
+Implementado:
+- Dominio validado
+- Migraciones
+- Modelos Eloquent
+- Auth + roles
+- CRUD de markers
+- Integración Leaflet
+
+Pendiente:
+- Policies y autorización Laravel
+- Importación legacy
+- Administración de usuarios
+- Mejoras UX del mapa
 
 ## Estilo
 
