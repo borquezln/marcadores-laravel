@@ -113,12 +113,23 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->post('/login', [
+        $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
 
         $this->assertGuest();
+        $response->assertSessionHasErrors([
+            'email' => 'Las credenciales ingresadas no coinciden con nuestros registros.',
+        ]);
+    }
+
+    public function test_login_screen_shows_register_link(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertSee(route('register'));
+        $response->assertSeeText('Crear cuenta');
     }
 
     public function test_users_can_logout(): void

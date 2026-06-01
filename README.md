@@ -101,6 +101,35 @@ Un usuario puede cargar muchos marcadores. Cada marcador pertenece a un usuario 
 
 Las coordenadas deben guardarse como valores decimales, no como `string` ni `float`, para preservar precisión y evitar errores de representación.
 
+---
+
+## Estado Actual
+
+Actualmente el sistema incluye:
+
+- autenticación con Laravel Breeze;
+- roles simples (admin, editor, viewer);
+- activación de usuarios mediante status;
+- CRUD de marcadores;
+- ownership básico de marcadores;
+- pruebas automatizadas;
+- seeders de desarrollo.
+
+---
+
+## Usuarios De Desarrollo
+
+Seeder incluido:
+
+- admin@example.com
+- editor@example.com
+- viewer@example.com
+
+Contraseña:
+`password`
+
+---
+
 ## Estructura Del Repositorio
 
 ```txt
