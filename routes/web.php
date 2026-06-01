@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\MarkerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -11,7 +12,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'active'])->name('dashboard');
 
 Route::middleware(['auth', 'active'])->group(function (): void {
-    Route::view('/map', 'map.index')->name('map.index');
+    Route::get('/map', MapController::class)->name('map.index');
 
     Route::middleware('role:admin,editor')->group(function (): void {
         Route::resource('markers', MarkerController::class)->except('show');
