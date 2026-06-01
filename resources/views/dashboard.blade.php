@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            Panel
         </h2>
     </x-slot>
 
@@ -32,19 +32,19 @@
                 </a>
 
                 @if ($user->canManageMarkers())
-                    <div class="bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100">
+                    <a href="{{ route('markers.index') }}" class="block bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100 hover:border-indigo-300">
                         <h3 class="font-medium text-gray-900">Marcadores</h3>
                         <p class="mt-2 text-sm text-gray-600">
-                            CRUD pendiente de implementacion.
+                            Alta, edición y gestión básica de marcadores.
                         </p>
-                    </div>
+                    </a>
                 @endif
 
                 @if ($user->canManageUsers())
                     <div class="bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100">
                         <h3 class="font-medium text-gray-900">Usuarios</h3>
                         <p class="mt-2 text-sm text-gray-600">
-                            Administracion pendiente de implementacion.
+                            Administración pendiente de implementación.
                         </p>
                     </div>
                 @endif

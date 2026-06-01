@@ -47,7 +47,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Las credenciales ingresadas no coinciden con nuestros registros.',
             ]);
         }
 
@@ -100,9 +100,9 @@ class LoginRequest extends FormRequest
     private function inactiveAccountMessage(User $user): string
     {
         return match ($user->status) {
-            User::STATUS_PENDING => 'Tu cuenta esta pendiente de aprobacion.',
-            User::STATUS_DISABLED => 'Tu cuenta esta deshabilitada.',
-            default => 'Tu cuenta no esta habilitada para acceder.',
+            User::STATUS_PENDING => 'Tu cuenta está pendiente de aprobación.',
+            User::STATUS_DISABLED => 'Tu cuenta está deshabilitada.',
+            default => 'Tu cuenta no está habilitada para acceder.',
         };
     }
 }

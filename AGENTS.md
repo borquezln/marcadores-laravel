@@ -83,6 +83,12 @@ El dominio inicial se limita deliberadamente a `users` y `markers`.
 
 No agregar nuevas tablas, catálogos o relaciones salvo que resuelvan un problema funcional concreto ya validado.
 
+### Ownership Inicial
+
+- admin puede visualizar y administrar todos los markers;
+- editor puede visualizar todos los markers y administrar únicamente los propios;
+- viewer no administra markers.
+
 ## Roles
 
 Mantener roles simples implementados como strings en users.
@@ -95,9 +101,10 @@ Mantener roles simples implementados como strings en users.
 4. Configurar autenticación básica.
 5. Implementar roles simples.
 6. Implementar CRUD de markers.
-7. Implementar mapa con Leaflet y filtros básicos.
-8. Implementar administración mínima de usuarios.
-9. Agregar pruebas para autenticación, roles y CRUD principal.
+7. Agregar pruebas para autenticación, roles y CRUD principal.
+8. Implementar mapa con Leaflet y filtros básicos.
+9. Implementar administración mínima de usuarios.
+10. Agregar pruebas para autenticación, roles y CRUD principal.
 
 ## Estilo
 
