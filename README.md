@@ -105,6 +105,8 @@ Las coordenadas deben guardarse como valores decimales, no como `string` ni `flo
 
 ## Estado Actual
 
+Versión actual: v0.5.1
+
 Actualmente el sistema incluye:
 
 - autenticación con Laravel Breeze;
@@ -113,7 +115,16 @@ Actualmente el sistema incluye:
 - CRUD de marcadores;
 - ownership básico de marcadores;
 - pruebas automatizadas;
-- seeders de desarrollo.
+- seeders de desarrollo;
+- mapa interactivo con Leaflet y OpenStreetMap.
+
+Pendiente:
+
+- policies y autorización Laravel;
+- importación de datos legacy
+- mejoras UX del mapa;
+- iconografía por tipo de marcador;
+- filtros y ordenamiento de marcadores.
 
 ---
 
