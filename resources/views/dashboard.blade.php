@@ -40,14 +40,14 @@
                     </a>
                 @endcan
 
-                @if ($user->canManageUsers())
-                    <div class="bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100">
+                @can('viewAny', \App\Models\User::class)
+                    <a href="{{ route('admin.users.index') }}" class="block bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100 hover:border-indigo-300">
                         <h3 class="font-medium text-gray-900">Usuarios</h3>
                         <p class="mt-2 text-sm text-gray-600">
-                            Administración pendiente de implementación.
+                            Activación y gestión básica de roles y estados.
                         </p>
-                    </div>
-                @endif
+                    </a>
+                @endcan
             </div>
         </div>
     </div>

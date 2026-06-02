@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MarkerController;
 use App\Http\Controllers\ProfileController;
@@ -15,6 +16,12 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::get('/map', MapController::class)->name('map.index');
 
     Route::resource('markers', MarkerController::class)->except('show');
+
+    Route::prefix('admin')
+        ->name('admin.')
+        ->group(function (): void {
+            Route::resource('users', AdminUserController::class)->only(['index', 'update']);
+        });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
