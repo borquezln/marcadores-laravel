@@ -21,6 +21,7 @@ class MarkerCrudTest extends TestCase
             ->actingAs($user)
             ->get(route('markers.index'));
 
+        $this->assertTrue($user->can('viewAny', Marker::class));
         $response->assertOk();
     }
 
@@ -34,6 +35,7 @@ class MarkerCrudTest extends TestCase
             ->actingAs($user)
             ->get(route('markers.index'));
 
+        $this->assertFalse($user->can('viewAny', Marker::class));
         $response->assertForbidden();
     }
 
@@ -55,6 +57,7 @@ class MarkerCrudTest extends TestCase
                 'notes' => 'Nota inicial',
             ]);
 
+        $this->assertTrue($user->can('create', Marker::class));
         $response->assertRedirect(route('markers.index'));
 
         $this->assertDatabaseHas('markers', [
@@ -87,8 +90,35 @@ class MarkerCrudTest extends TestCase
             ->actingAs($user)
             ->get(route('markers.index'));
 
+        $this->assertTrue($user->can('viewAny', Marker::class));
         $response->assertSeeText($ownMarker->title);
         $response->assertSeeText($otherMarker->title);
+    }
+
+    public function test_viewer_cannot_create_a_marker(): void
+    {
+        $user = User::factory()->create([
+            'role' => User::ROLE_VIEWER,
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->post(route('markers.store'), [
+                'type' => Marker::TYPE_PLACE,
+                'status' => Marker::STATUS_ACTIVE,
+                'title' => 'Marcador no permitido',
+                'address' => 'Direccion 123',
+                'latitude' => '-32.8896767',
+                'longitude' => '-68.8448381',
+                'notes' => 'Nota inicial',
+            ]);
+
+        $this->assertFalse($user->can('create', Marker::class));
+        $response->assertForbidden();
+
+        $this->assertDatabaseMissing('markers', [
+            'title' => 'Marcador no permitido',
+        ]);
     }
 
     public function test_editor_cannot_edit_another_users_marker(): void
@@ -109,6 +139,7 @@ class MarkerCrudTest extends TestCase
             ->actingAs($user)
             ->get(route('markers.edit', $marker));
 
+        $this->assertFalse($user->can('update', $marker));
         $response->assertForbidden();
     }
 
@@ -139,6 +170,7 @@ class MarkerCrudTest extends TestCase
                 'notes' => 'Nota',
             ]);
 
+        $this->assertFalse($user->can('update', $marker));
         $response->assertForbidden();
 
         $this->assertDatabaseHas('markers', [
@@ -166,6 +198,7 @@ class MarkerCrudTest extends TestCase
             ->actingAs($user)
             ->delete(route('markers.destroy', $marker));
 
+        $this->assertFalse($user->can('delete', $marker));
         $response->assertForbidden();
 
         $this->assertDatabaseHas('markers', [
@@ -189,6 +222,33 @@ class MarkerCrudTest extends TestCase
             ->actingAs($user)
             ->delete(route('markers.destroy', $marker));
 
+        $this->assertTrue($user->can('delete', $marker));
+        $response->assertRedirect(route('markers.index'));
+
+        $this->assertDatabaseHas('markers', [
+            'id' => $marker->id,
+            'status' => Marker::STATUS_REMOVED,
+        ]);
+    }
+
+    public function test_admin_can_remove_another_users_marker(): void
+    {
+        $admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+        ]);
+
+        $marker = Marker::factory()->create([
+            'user_id' => User::factory()->create([
+                'role' => User::ROLE_EDITOR,
+            ])->id,
+            'status' => Marker::STATUS_ACTIVE,
+        ]);
+
+        $response = $this
+            ->actingAs($admin)
+            ->delete(route('markers.destroy', $marker));
+
+        $this->assertTrue($admin->can('delete', $marker));
         $response->assertRedirect(route('markers.index'));
 
         $this->assertDatabaseHas('markers', [

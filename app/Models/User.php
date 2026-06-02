@@ -105,14 +105,4 @@ class User extends Authenticatable
     {
         return $this->isAdmin();
     }
-
-    public function canManageMarkers(): bool
-    {
-        return $this->isAdmin() || $this->isEditor();
-    }
-
-    public function canViewMap(): bool
-    {
-        return $this->isActive();
-    }
 }

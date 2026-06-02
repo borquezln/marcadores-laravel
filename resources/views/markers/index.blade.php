@@ -5,12 +5,14 @@
                 Marcadores
             </h2>
 
-            <a
-                href="{{ route('markers.create') }}"
-                class="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-gray-700"
-            >
-                Nuevo marcador
-            </a>
+            @can('create', \App\Models\Marker::class)
+                <a
+                    href="{{ route('markers.create') }}"
+                    class="inline-flex items-center rounded-md bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-gray-700"
+                >
+                    Nuevo marcador
+                </a>
+            @endcan
         </div>
     </x-slot>
 
@@ -43,9 +45,6 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200">
                                     @foreach ($markers as $marker)
-                                        @php
-                                            $canManageMarker = auth()->user()->isAdmin() || $marker->user_id === auth()->id();
-                                        @endphp
                                         <tr>
                                             <td class="px-4 py-3">
                                                 <div class="font-medium text-gray-900">{{ $marker->title }}</div>
@@ -61,11 +60,13 @@
                                             </td>
                                             <td class="px-4 py-3">
                                                 <div class="flex justify-end gap-3">
-                                                    @if ($canManageMarker)
+                                                    @can('update', $marker)
                                                         <a href="{{ route('markers.edit', $marker) }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
                                                             Editar
                                                         </a>
+                                                    @endcan
 
+                                                    @can('delete', $marker)
                                                         @if ($marker->status !== \App\Models\Marker::STATUS_REMOVED)
                                                             <form method="POST" action="{{ route('markers.destroy', $marker) }}">
                                                                 @csrf
@@ -80,11 +81,13 @@
                                                                 </button>
                                                             </form>
                                                         @endif
-                                                    @else
+                                                    @endcan
+
+                                                    @cannot('update', $marker)
                                                         <span class="text-sm text-gray-400">
                                                             Solo lectura
                                                         </span>
-                                                    @endif
+                                                    @endcannot
                                                 </div>
                                             </td>
                                         </tr>

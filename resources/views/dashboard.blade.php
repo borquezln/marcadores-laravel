@@ -31,14 +31,14 @@
                     </p>
                 </a>
 
-                @if ($user->canManageMarkers())
+                @can('viewAny', \App\Models\Marker::class)
                     <a href="{{ route('markers.index') }}" class="block bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100 hover:border-indigo-300">
                         <h3 class="font-medium text-gray-900">Marcadores</h3>
                         <p class="mt-2 text-sm text-gray-600">
                             Alta, edición y gestión básica de marcadores.
                         </p>
                     </a>
-                @endif
+                @endcan
 
                 @if ($user->canManageUsers())
                     <div class="bg-white p-6 shadow-sm sm:rounded-lg border border-gray-100">

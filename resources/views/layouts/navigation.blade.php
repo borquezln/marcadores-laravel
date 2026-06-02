@@ -1,7 +1,3 @@
-@php
-    $user = Auth::user();
-@endphp
-
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,17 +16,15 @@
                         Panel
                     </x-nav-link>
 
-                    @if ($user?->canViewMap())
-                        <x-nav-link :href="route('map.index')" :active="request()->routeIs('map.*')">
-                            {{ __('Mapa') }}
-                        </x-nav-link>
-                    @endif
+                    <x-nav-link :href="route('map.index')" :active="request()->routeIs('map.*')">
+                        {{ __('Mapa') }}
+                    </x-nav-link>
 
-                    @if ($user?->canManageMarkers())
+                    @can('viewAny', \App\Models\Marker::class)
                         <x-nav-link :href="route('markers.index')" :active="request()->routeIs('markers.*')">
                             {{ __('Marcadores') }}
                         </x-nav-link>
-                    @endif
+                    @endcan
                 </div>
             </div>
 
@@ -87,17 +81,15 @@
                 Panel
             </x-responsive-nav-link>
 
-            @if ($user?->canViewMap())
-                <x-responsive-nav-link :href="route('map.index')" :active="request()->routeIs('map.*')">
-                    {{ __('Mapa') }}
-                </x-responsive-nav-link>
-            @endif
+            <x-responsive-nav-link :href="route('map.index')" :active="request()->routeIs('map.*')">
+                {{ __('Mapa') }}
+            </x-responsive-nav-link>
 
-            @if ($user?->canManageMarkers())
+            @can('viewAny', \App\Models\Marker::class)
                 <x-responsive-nav-link :href="route('markers.index')" :active="request()->routeIs('markers.*')">
                     {{ __('Marcadores') }}
                 </x-responsive-nav-link>
-            @endif
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

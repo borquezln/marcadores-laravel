@@ -89,6 +89,11 @@ No agregar nuevas tablas, catálogos o relaciones salvo que resuelvan un problem
 - editor puede visualizar todos los markers y administrar únicamente los propios;
 - viewer puede visualizar markers en el mapa, pero no administrarlos.
 
+### Autorización:
+- middleware para acceso general;
+- Policies para recursos de dominio;
+- MarkerPolicy es la fuente de verdad para autorización de markers.
+
 ## Roles
 
 Mantener roles simples implementados como strings en users.
@@ -102,12 +107,11 @@ Implementado:
 - Auth + roles
 - CRUD de markers
 - Integración Leaflet
+- MarkerPolicy
 
 Pendiente:
-- Policies y autorización Laravel
-- Importación legacy
 - Administración de usuarios
-- Mejoras UX del mapa
+- Mejoras UX
 
 ## Estilo
 
