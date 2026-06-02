@@ -25,6 +25,12 @@
                             {{ __('Marcadores') }}
                         </x-nav-link>
                     @endcan
+
+                    @can('viewAny', \App\Models\User::class)
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -88,6 +94,12 @@
             @can('viewAny', \App\Models\Marker::class)
                 <x-responsive-nav-link :href="route('markers.index')" :active="request()->routeIs('markers.*')">
                     {{ __('Marcadores') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('viewAny', \App\Models\User::class)
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('Usuarios') }}
                 </x-responsive-nav-link>
             @endcan
         </div>

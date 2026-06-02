@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Reconstruir el repositorio legacy como una nueva aplicación Laravel moderna para gestionar y visualizar marcadores en un mapa.
+Aplicación Laravel para administrar usuarios y marcadores georreferenciados sobre un mapa interactivo.
 
 ## Principios
 
@@ -19,28 +19,6 @@ Reconstruir el repositorio legacy como una nueva aplicación Laravel moderna par
 - Tailwind CSS si el instalador o starter elegido lo incluye.
 - Leaflet para mapas.
 - MySQL.
-
-## Uso Del Legacy
-
-El sistema dentro de `/legacy` queda archivado y debe usarse solo como referencia funcional. No hay requisito de compatibilidad hacia atrás.
-
-`/legacy` sirve para entender:
-
-- tipos de marcadores existentes;
-- campos usados en formularios y popups;
-- roles de usuario;
-- permisos esperados;
-- estructura de datos original;
-- capturas de pantalla y flujos de navegación.
-
-No copiar desde `/legacy`:
-
-- consultas SQL manuales;
-- controladores PHP procedural/MVC antiguo;
-- manejo de sesiones propio;
-- estructura de carpetas;
-- validaciones mezcladas con vistas;
-- HTML legacy salvo como referencia visual mínima.
 
 ## Arquitectura Laravel
 
@@ -77,13 +55,13 @@ Evitar salvo necesidad clara:
 - Evitar dashboards pesados o interfaces de marketing.
 - Priorizar formularios claros, tablas simples, filtros útiles y navegación directa.
 
-## Modelado Inicial
+## Modelado
 
-El dominio inicial se limita deliberadamente a `users` y `markers`.
+El dominio se limita deliberadamente a `users` y `markers`.
 
 No agregar nuevas tablas, catálogos o relaciones salvo que resuelvan un problema funcional concreto ya validado.
 
-### Ownership Inicial
+### Ownership
 
 - admin puede visualizar y administrar todos los markers;
 - editor puede visualizar todos los markers y administrar únicamente los propios;
@@ -100,18 +78,25 @@ Mantener roles simples implementados como strings en users.
 
 ## Estado De Trabajo
 
-Implementado:
-- Dominio validado
-- Migraciones
-- Modelos Eloquent
-- Auth + roles
-- CRUD de markers
-- Integración Leaflet
-- MarkerPolicy
+Versión actual: v1.0.0
 
-Pendiente:
-- Administración de usuarios
-- Mejoras UX
+MVP funcional implementado.
+
+Funcionalidades principales:
+- autenticación;
+- roles y estados de usuario;
+- administración de usuarios;
+- CRUD de markers;
+- mapa interactivo con Leaflet;
+- autorización mediante Policies;
+- tests automatizados.
+
+Mejoras futuras:
+- filtros de markers;
+- ordenamientos;
+- colores por tipo;
+- iconos por tipo;
+- geolocalización desde navegador.
 
 ## Estilo
 

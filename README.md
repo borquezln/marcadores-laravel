@@ -2,42 +2,20 @@
 
 ## Origen Del Proyecto
 
-El sistema original [`Marcadores`](https://github.com/borquezln/marcadores) fue desarrollado en PHP con una estructura MVC simple y tenía como objetivo:
+Marcadores surge como una reimplementación moderna de un sistema previo desarrollado en PHP [`Marcadores`](https://github.com/borquezln/marcadores). 
 
-- registrar marcadores en base de datos;
-- visualizar esos marcadores sobre un mapa;
-- diferenciar tipos de marcadores;
-- administrar usuarios con permisos básicos.
-
-Ese comportamiento sigue siendo la referencia funcional del nuevo sistema, pero su implementación fue reiniciada sobre Laravel para tener un sistema más moderno, seguro y funcional.
-
-Este repositorio mantiene el código legacy archivado en [`/legacy`](./legacy), el cual se conserva como referencia funcional, visual y de modelado. No existe requisito de compatibilidad con la arquitectura ni con la base de código anterior.
+Marcadores surge como una reimplementación moderna de un sistema previo desarrollado en PHP.
 
 ---
 
-## Objetivo De Esta Nueva Versión
+## Objetivo De Esta Versión
 
-La elección del stack fue parte del camino natural partiendo del proyecto construido únicamente con PHP y algunas implementaciones en Javascript para la carga del mapa y los marcadores.
+Marcadores es una aplicación Laravel para administrar usuarios y marcadores georreferenciados sobre un mapa interactivo.
 
-La nueva aplicación busca reemplazar completamente al sistema original con una base técnica más clara y actual.
-
-Las premisas de esta reimplementación son:
-
-- Laravel convencional
-- Blade como capa de interfaz
-- Leaflet para mapas
-- autenticación básica
-- roles simples
-- CRUD de marcadores
-- código mantenible y fácil de extender
-
-Objetivos principales:
-
-- mantener una arquitectura simple;
-- unificar criterios de desarrollo;
-- evitar lógica procedural dispersa;
-- centralizar autenticación, validación y persistencia con herramientas nativas de Laravel;
-- facilitar futuras mejoras sin arrastrar deuda técnica del sistema anterior.
+Permite:
+- gestionar usuarios;
+- administrar marcadores;
+- visualizar información geográfica mediante Leaflet y OpenStreetMap.
 
 ---
 
@@ -105,26 +83,28 @@ Las coordenadas deben guardarse como valores decimales, no como `string` ni `flo
 
 ## Estado Actual
 
-Versión actual: v0.5.1
+Versión: v1.0.0
 
-Actualmente el sistema incluye:
+### Funcionalidades
 
-- autenticación con Laravel Breeze;
-- roles simples (admin, editor, viewer);
-- activación de usuarios mediante status;
-- CRUD de marcadores;
-- ownership básico de marcadores;
-- pruebas automatizadas;
+- autenticación;
+- roles (admin, editor, viewer);
+- estados de usuario (pending, active, disabled);
+- administración de usuarios;
+- CRUD de markers;
+- mapa interactivo;
+- autorización mediante Policies;
 - seeders de desarrollo;
-- mapa interactivo con Leaflet y OpenStreetMap;
-- autorización basada en MarkerPolicy.
+- tests automatizados.
 
-Pendiente:
+### Roadmap:
 
-- panel de administración de usuarios;
-- mejoras UX del mapa;
-- iconografía por tipo de marcador;
-- filtros y ordenamiento de marcadores.
+- filtros de markers;
+- ordenamientos;
+- colores por tipo;
+- iconos por tipo;
+- geolocalización desde navegador;
+- despliegue público.
 
 ---
 
@@ -154,5 +134,4 @@ Contraseña:
 ├── routes/
 ├── storage/
 ├── tests/
-└── legacy/
 ```
