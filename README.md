@@ -116,12 +116,12 @@ Actualmente el sistema incluye:
 - ownership básico de marcadores;
 - pruebas automatizadas;
 - seeders de desarrollo;
-- mapa interactivo con Leaflet y OpenStreetMap.
+- mapa interactivo con Leaflet y OpenStreetMap;
+- autorización basada en MarkerPolicy.
 
 Pendiente:
 
-- policies y autorización Laravel;
-- importación de datos legacy
+- panel de administración de usuarios;
 - mejoras UX del mapa;
 - iconografía por tipo de marcador;
 - filtros y ordenamiento de marcadores.

@@ -14,9 +14,7 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'active'])->group(function (): void {
     Route::get('/map', MapController::class)->name('map.index');
 
-    Route::middleware('role:admin,editor')->group(function (): void {
-        Route::resource('markers', MarkerController::class)->except('show');
-    });
+    Route::resource('markers', MarkerController::class)->except('show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

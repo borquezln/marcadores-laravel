@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMarkerRequest;
 use App\Http\Requests\UpdateMarkerRequest;
 use App\Models\Marker;
-use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class MarkerController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
+        $this->authorize('viewAny', Marker::class);
+
         $markers = Marker::query()
             ->with('user')
             ->latest()
@@ -28,6 +28,8 @@ class MarkerController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create', Marker::class);
+
         return view('markers.create', [
             'marker' => new Marker([
                 'type' => Marker::TYPE_PLACE,
@@ -40,6 +42,8 @@ class MarkerController extends Controller
 
     public function store(StoreMarkerRequest $request): RedirectResponse
     {
+        $this->authorize('create', Marker::class);
+
         $marker = new Marker($request->validated());
         $marker->user()->associate($request->user());
         $marker->save();
@@ -49,9 +53,9 @@ class MarkerController extends Controller
             ->with('status', 'Marcador creado correctamente.');
     }
 
-    public function edit(Marker $marker, Request $request): View
+    public function edit(Marker $marker): View
     {
-        $this->ensureCanManage($request->user(), $marker);
+        $this->authorize('update', $marker);
 
         return view('markers.edit', [
             'marker' => $marker,
@@ -62,7 +66,7 @@ class MarkerController extends Controller
 
     public function update(UpdateMarkerRequest $request, Marker $marker): RedirectResponse
     {
-        $this->ensureCanManage($request->user(), $marker);
+        $this->authorize('update', $marker);
 
         $marker->update($request->validated());
 
@@ -71,9 +75,9 @@ class MarkerController extends Controller
             ->with('status', 'Marcador actualizado correctamente.');
     }
 
-    public function destroy(Request $request, Marker $marker): RedirectResponse
+    public function destroy(Marker $marker): RedirectResponse
     {
-        $this->ensureCanManage($request->user(), $marker);
+        $this->authorize('delete', $marker);
 
         $marker->update([
             'status' => Marker::STATUS_REMOVED,
@@ -106,14 +110,5 @@ class MarkerController extends Controller
             Marker::STATUS_INACTIVE => 'Inactivo',
             Marker::STATUS_REMOVED => 'Removido',
         ];
-    }
-
-    private function ensureCanManage(User $user, Marker $marker): void
-    {
-        if ($user->isAdmin()) {
-            return;
-        }
-
-        abort_if($marker->user_id !== $user->id, 403);
     }
 }
