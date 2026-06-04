@@ -36,6 +36,7 @@ class MapController extends Controller
 
         return view('map.index', [
             'markers' => $markers,
+            'types' => $typeLabels,
             'defaultCenter' => config('map.default_center'),
         ]);
     }

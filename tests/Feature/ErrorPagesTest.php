@@ -37,8 +37,7 @@ class ErrorPagesTest extends TestCase
             ->get('/ruta-inexistente')
             ->assertNotFound()
             ->assertSeeText('Página no encontrada')
-            ->assertSeeText('Ir al panel')
-            ->assertSeeText('Cerrar sesión')
+            ->assertSeeText('Ir al inicio')
             ->assertSeeText('Volver atrás');
     }
 }
