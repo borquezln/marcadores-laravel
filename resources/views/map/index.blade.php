@@ -62,6 +62,12 @@
                             shadowSize: [41, 41],
                         });
 
+                        const typeColors = {
+                            'place': '#3b82f6',
+                            'billboard': '#ef4444',
+                            'stand': '#10b981',
+                        };
+
                         const markers = {{ Js::from($markers) }};
                         const defaultCenter = {{ Js::from($defaultCenter) }};
                         const initialCenter = markers.length > 0
@@ -90,9 +96,19 @@
                                 marker.address ? `Direccion: ${escapeHtml(marker.address)}` : null,
                             ].filter(Boolean).join('<br>');
 
-                            L.marker([marker.latitude, marker.longitude])
-                                .addTo(map)
-                                .bindPopup(popup);
+                            const color = typeColors[marker.type] || '#6b7280';
+
+                            L.circleMarker([marker.latitude, marker.longitude], {
+                                radius: 8,
+                                fillBackgroundColor: color,
+                                color: '#ffffff',
+                                weight: 2,
+                                opacity: 1,
+                                fillOpacity: 0.8,
+                                fillColor: color
+                            })
+                            .addTo(map)
+                            .bindPopup(popup);
                         });
 
                         const resizeMap = () => {

@@ -14,10 +14,53 @@ class MarkerController extends Controller
     {
         $this->authorize('viewAny', Marker::class);
 
-        $markers = Marker::query()
-            ->with('user')
-            ->latest()
-            ->get();
+        $query = Marker::query()
+            ->with('user');
+
+        if ($type = request('type')) {
+            $query->where('type', $type);
+        }
+
+        if ($status = request('status')) {
+            $query->where('status', $status);
+        }
+
+        if (request('my_markers') && auth()->check()) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $sortBy = request('sort_by', 'latest');
+        $sortDirection = request('sort_direction', 'desc');
+
+        switch ($sortBy) {
+            case 'latest':
+                $query->latest();
+                break;
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'title_asc':
+                $query->orderBy('title', 'asc');
+                break;
+            case 'title_desc':
+                $query->orderBy('title', 'desc');
+                break;
+            case 'owner_asc':
+                $query->join('users', 'markers.user_id', '=', 'users.id')
+                    ->orderBy('users.name', 'asc')
+                    ->select('markers.*');
+                break;
+            case 'owner_desc':
+                $query->join('users', 'markers.user_id', '=', 'users.id')
+                    ->orderBy('users.name', 'desc')
+                    ->select('markers.*');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+
+        $markers = $query->paginate(10)->withQueryString();
 
         return view('markers.index', [
             'markers' => $markers,

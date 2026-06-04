@@ -83,7 +83,7 @@ Las coordenadas deben guardarse como valores decimales, no como `string` ni `flo
 
 ## Estado Actual
 
-Versión: v1.0.0
+Versión: v1.1.0
 
 ### Funcionalidades
 
@@ -95,14 +95,15 @@ Versión: v1.0.0
 - mapa interactivo;
 - autorización mediante Policies;
 - seeders de desarrollo;
+- filtros de markers;
+- ordenamientos;
+- colores por tipo;
 - tests automatizados.
 
 ### Roadmap:
 
-- filtros de markers;
-- ordenamientos;
-- colores por tipo;
-- iconos por tipo;
+- mejoras visuales de filtros y listados;
+- filtros en mapa;
 - geolocalización desde navegador;
 - despliegue público.
 

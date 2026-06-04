@@ -78,7 +78,7 @@ Mantener roles simples implementados como strings en users.
 
 ## Estado De Trabajo
 
-Versión actual: v1.0.0
+Versión actual: v1.1.0
 
 MVP funcional implementado.
 
@@ -89,21 +89,37 @@ Funcionalidades principales:
 - CRUD de markers;
 - mapa interactivo con Leaflet;
 - autorización mediante Policies;
-- tests automatizados.
-
-Mejoras futuras:
 - filtros de markers;
 - ordenamientos;
 - colores por tipo;
-- iconos por tipo;
-- geolocalización desde navegador.
+- tests automatizados.
+
+Mejoras futuras:
+- mejoras visuales de filtros y listados;
+- filtros en mapas;
+- geolocalización desde navegador;
+- despliegue público.
+
+## Historial De Versiones
+
+v1.0.0
+- MVP funcional completo.
+
+v1.1.0
+- filtros de markers;
+- ordenamientos;
+- colores por tipo en mapa.
 
 ## Estilo
 
+- Tipado explícito para PHP.
 - Nombres claros y convencionales.
 - Métodos cortos.
 - Validaciones cerca de la entrada HTTP.
 - Consultas Eloquent legibles.
-- Comentarios solo cuando aclaren una decisión no obvia.
+- No agregar comentarios al código salvo pedido explícito.
+- No agregar TODO, FIXME o comentarios explicativos.
 - Cambios pequeños y verificables.
-- Tipado explícito para PHP.
+- Presentar plan antes de cambios grandes.
+- No asumir implementaciones existentes.
+- No afirmar que una funcionalidad está implementada sin verificar los archivos modificados.

@@ -26,9 +26,60 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <form action="{{ route('markers.index') }}" method="GET" class="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5 items-end">
+                        <div>
+                            <x-input-label for="type" value="Tipo" />
+                            <select id="type" name="type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Todos los tipos</option>
+                                @foreach ($types as $value => $label)
+                                    <option value="{{ $value }}" @selected(request('type') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <x-input-label for="status" value="Estado" />
+                            <select id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Todos los estados</option>
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(request('status') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <x-input-label for="sort_by" value="Ordenar por" />
+                            <select id="sort_by" name="sort_by" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="latest" @selected(request('sort_by') === 'latest')>Más recientes</option>
+                                <option value="oldest" @selected(request('sort_by') === 'oldest')>Más antiguos</option>
+                                <option value="title_asc" @selected(request('sort_by') === 'title_asc')>Título A-Z</option>
+                                <option value="title_desc" @selected(request('sort_by') === 'title_desc')>Título Z-A</option>
+                                <option value="owner_asc" @selected(request('sort_by') === 'owner_asc')>Propietario A-Z</option>
+                                <option value="owner_desc" @selected(request('sort_by') === 'owner_desc')>Propietario Z-A</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center h-10">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="my_markers" value="1" @checked(request('my_markers')) class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <span class="ml-2 text-sm text-gray-600">Solo mis marcadores</span>
+                            </label>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <x-primary-button type="submit">
+                                Filtrar
+                            </x-primary-button>
+                            
+                            <a href="{{ route('markers.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                                Limpiar
+                            </a>
+                        </div>
+                    </form>
+
                     @if ($markers->isEmpty())
                         <p class="text-sm text-gray-600">
-                            Todavía no hay marcadores cargados.
+                            No se encontraron marcadores con los criterios seleccionados.
                         </p>
                     @else
                         <div class="overflow-x-auto">
@@ -94,6 +145,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="mt-6">
+                            {{ $markers->links() }}
                         </div>
                     @endif
                 </div>
