@@ -5,8 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="block h-10 w-10 overflow-hidden rounded">
+                        <x-application-logo class="block h-full w-full scale-150 object-contain" />
                     </a>
                 </div>
 
