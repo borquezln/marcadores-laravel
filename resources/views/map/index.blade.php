@@ -2,6 +2,11 @@
     use Illuminate\Support\Js;
 
     $markerCount = count($markers);
+    $typeColors = [
+        'place' => '#3b82f6',
+        'billboard' => '#ef4444',
+        'stand' => '#10b981',
+    ];
 @endphp
 
 <x-app-layout>
@@ -20,6 +25,15 @@
                         <p class="text-sm text-gray-600">
                             {{ $markerCount }} {{ $markerCount === 1 ? 'marcador visible' : 'marcadores visibles' }}
                         </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+                        @foreach ($types as $value => $label)
+                            <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 shadow-sm">
+                                <span class="h-2.5 w-2.5 rounded-full" style="background-color: {{ $typeColors[$value] ?? '#6b7280' }}"></span>
+                                {{ $label }}
+                            </span>
+                        @endforeach
                     </div>
 
                     <link
@@ -62,12 +76,7 @@
                             shadowSize: [41, 41],
                         });
 
-                        const typeColors = {
-                            'place': '#3b82f6',
-                            'billboard': '#ef4444',
-                            'stand': '#10b981',
-                        };
-
+                        const typeColors = {{ Js::from($typeColors) }};
                         const markers = {{ Js::from($markers) }};
                         const defaultCenter = {{ Js::from($defaultCenter) }};
                         const initialCenter = markers.length > 0
