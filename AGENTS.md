@@ -78,29 +78,18 @@ Mantener roles simples implementados como strings en users.
 
 ## Estado De Trabajo
 
-Versión actual: v1.1.0
+Versión actual: v1.2.0
 
-MVP funcional implementado.
-
-Funcionalidades principales:
+### Funcionalidades del MVP:
 - autenticación;
 - roles y estados de usuario;
 - administración de usuarios;
 - CRUD de markers;
 - mapa interactivo con Leaflet;
 - autorización mediante Policies;
-- filtros de markers;
-- ordenamientos;
-- colores por tipo;
 - tests automatizados.
 
-Mejoras futuras:
-- mejoras visuales de filtros y listados;
-- filtros en mapas;
-- geolocalización desde navegador;
-- despliegue público.
-
-## Historial De Versiones
+### Historial De Versiones
 
 v1.0.0
 - MVP funcional completo.
@@ -109,6 +98,24 @@ v1.1.0
 - filtros de markers;
 - ordenamientos;
 - colores por tipo en mapa.
+
+v1.2.0
+- selector de tema (light, dark, system);
+- persistencia de preferencia;
+- cambio dinámico de branding;
+
+### Mejoras futuras:
+- adaptación visual completa para dark mode;
+- revisión de contrastes;
+- tablas y formularios en dark mode;
+- dashboard consistente entre temas;
+- revisión visual de componentes compartidos;
+- geolocalización;
+- filtros en mapa;
+- API pública;
+- autenticación por tokens;
+- documentación de API;
+- despliegue.
 
 ## Estilo
 
