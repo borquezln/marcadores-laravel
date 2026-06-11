@@ -27,4 +27,4 @@ Reglas:
 - No afirmar que una funcionalidad está implementada sin verificar los archivos afectados.
 - No modificar archivos fuera del alcance aprobado.
 - Informar siempre qué archivos serán modificados antes de implementar.
-- Ejecutar tests y Pint después de cada implementación.
+- No ejecutar tests y Pint después de cada implementación.
