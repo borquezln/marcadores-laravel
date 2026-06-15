@@ -11,25 +11,25 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Mapa') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 space-y-4">
+            <div class="bg-white dark:bg-[#323232] overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100 space-y-4">
                     <div class="flex items-center justify-between gap-4">
-                        <h3 class="text-lg font-medium text-gray-900">Marcadores activos</h3>
-                        <p class="text-sm text-gray-600">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Marcadores activos</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
                             {{ $markerCount }} {{ $markerCount === 1 ? 'marcador visible' : 'marcadores visibles' }}
                         </p>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+                    <div class="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 dark:border-neutral-600 bg-gray-50 dark:bg-[#3d3d3d] px-3 py-2">
                         @foreach ($types as $value => $label)
-                            <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 shadow-sm">
+                            <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-600 bg-white dark:bg-[#323232] px-3 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 shadow-sm">
                                 <span class="h-2.5 w-2.5 rounded-full" style="background-color: {{ $typeColors[$value] ?? '#6b7280' }}"></span>
                                 {{ $label }}
                             </span>
@@ -54,10 +54,10 @@
                         }
                     </style>
 
-                    <div id="map" class="overflow-hidden rounded border border-gray-200"></div>
+                    <div id="map" class="overflow-hidden rounded border border-gray-200 dark:border-neutral-600"></div>
 
                     @if ($markerCount === 0)
-                        <p class="text-sm text-gray-600">No hay marcadores activos para mostrar.</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">No hay marcadores activos para mostrar.</p>
                     @endif
 
                     <script
@@ -83,13 +83,45 @@
                             ? [markers[0].latitude, markers[0].longitude]
                             : [defaultCenter.latitude, defaultCenter.longitude];
 
+                        const lightTileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+                        const darkTileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+
+                        const lightAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+                        const darkAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+                        const isDark = () => document.documentElement.classList.contains('dark');
+
                         const mapElement = document.getElementById('map');
                         const map = L.map(mapElement).setView(initialCenter, defaultCenter.zoom);
 
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        const currentTileUrl = isDark() ? darkTileUrl : lightTileUrl;
+                        const currentAttribution = isDark() ? darkAttribution : lightAttribution;
+
+                        const tileLayer = L.tileLayer(currentTileUrl, {
                             maxZoom: 19,
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                            attribution: currentAttribution,
                         }).addTo(map);
+
+                        let lastIsDark = isDark();
+
+                        const observer = new MutationObserver(() => {
+                            const currentlyDark = isDark();
+                            if (currentlyDark !== lastIsDark) {
+                                lastIsDark = currentlyDark;
+                                const newTileUrl = currentlyDark ? darkTileUrl : lightTileUrl;
+                                tileLayer.setUrl(newTileUrl);
+
+                                // Update attribution dynamically
+                                map.attributionControl.removeAttribution(lightAttribution);
+                                map.attributionControl.removeAttribution(darkAttribution);
+                                map.attributionControl.addAttribution(currentlyDark ? darkAttribution : lightAttribution);
+                            }
+                        });
+
+                        observer.observe(document.documentElement, {
+                            attributes: true,
+                            attributeFilter: ['class']
+                        });
 
                         const escapeHtml = (value) => String(value ?? '')
                             .replaceAll('&', '&amp;')
