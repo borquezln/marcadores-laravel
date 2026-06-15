@@ -83,13 +83,45 @@
                             ? [markers[0].latitude, markers[0].longitude]
                             : [defaultCenter.latitude, defaultCenter.longitude];
 
+                        const lightTileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+                        const darkTileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+
+                        const lightAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+                        const darkAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+                        const isDark = () => document.documentElement.classList.contains('dark');
+
                         const mapElement = document.getElementById('map');
                         const map = L.map(mapElement).setView(initialCenter, defaultCenter.zoom);
 
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        const currentTileUrl = isDark() ? darkTileUrl : lightTileUrl;
+                        const currentAttribution = isDark() ? darkAttribution : lightAttribution;
+
+                        const tileLayer = L.tileLayer(currentTileUrl, {
                             maxZoom: 19,
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                            attribution: currentAttribution,
                         }).addTo(map);
+
+                        let lastIsDark = isDark();
+
+                        const observer = new MutationObserver(() => {
+                            const currentlyDark = isDark();
+                            if (currentlyDark !== lastIsDark) {
+                                lastIsDark = currentlyDark;
+                                const newTileUrl = currentlyDark ? darkTileUrl : lightTileUrl;
+                                tileLayer.setUrl(newTileUrl);
+
+                                // Update attribution dynamically
+                                map.attributionControl.removeAttribution(lightAttribution);
+                                map.attributionControl.removeAttribution(darkAttribution);
+                                map.attributionControl.addAttribution(currentlyDark ? darkAttribution : lightAttribution);
+                            }
+                        });
+
+                        observer.observe(document.documentElement, {
+                            attributes: true,
+                            attributeFilter: ['class']
+                        });
 
                         const escapeHtml = (value) => String(value ?? '')
                             .replaceAll('&', '&amp;')
