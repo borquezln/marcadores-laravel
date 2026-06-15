@@ -1,6 +1,6 @@
 <div class="space-y-4">
-    <p class="text-sm text-gray-600">
-        Los campos marcados con <span class="font-semibold text-red-600">*</span> son obligatorios.
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+        Los campos marcados con <span class="font-semibold text-red-600 dark:text-red-400">*</span> son obligatorios.
     </p>
 </div>
 
@@ -16,7 +16,7 @@
         <select
             id="type"
             name="type"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-600 bg-white dark:bg-[#323232] text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             required
         >
             @foreach ($types as $value => $label)
@@ -49,7 +49,7 @@
         <select
             id="status"
             name="status"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-600 bg-white dark:bg-[#323232] text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             required
         >
             @foreach ($statuses as $value => $label)
@@ -65,7 +65,7 @@
             id="notes"
             name="notes"
             rows="4"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-600 bg-white dark:bg-[#323232] text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >{{ old('notes', $marker->notes) }}</textarea>
         <x-input-error :messages="$errors->get('notes')" class="mt-2" />
     </div>
