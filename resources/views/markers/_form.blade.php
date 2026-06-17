@@ -44,6 +44,15 @@
         <x-input-error :messages="$errors->get('longitude')" class="mt-2" />
     </div>
 
+    <div class="sm:col-span-2 flex flex-col gap-2">
+        <div>
+            <x-secondary-button id="get-my-location-form" type="button">
+                Usar mi ubicación actual
+            </x-secondary-button>
+        </div>
+        <div id="geolocation-status-form" class="hidden text-sm p-3 rounded-md"></div>
+    </div>
+
     <div>
         <x-input-label for="status" value="Estado *" />
         <select
@@ -70,3 +79,66 @@
         <x-input-error :messages="$errors->get('notes')" class="mt-2" />
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const statusForm = document.getElementById('geolocation-status-form');
+        const showStatusForm = (text, type) => {
+            statusForm.className = 'text-sm p-3 rounded-md border mt-2';
+            if (type === 'loading') {
+                statusForm.classList.add('border-blue-200', 'dark:border-blue-800', 'bg-blue-50', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+            } else if (type === 'error') {
+                statusForm.classList.add('border-red-200', 'dark:border-red-800', 'bg-red-50', 'dark:bg-red-900/30', 'text-red-700', 'dark:text-red-300');
+            }
+            statusForm.textContent = text;
+            statusForm.classList.remove('hidden');
+        };
+        const hideStatusForm = () => {
+            statusForm.classList.add('hidden');
+        };
+
+        const btnForm = document.getElementById('get-my-location-form');
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+
+        btnForm.addEventListener('click', () => {
+            if (!navigator.geolocation) {
+                showStatusForm('La geolocalización no está soportada por este navegador.', 'error');
+                return;
+            }
+
+            showStatusForm('Cargando ubicación...', 'loading');
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    hideStatusForm();
+                    latInput.value = position.coords.latitude;
+                    lngInput.value = position.coords.longitude;
+                },
+                (error) => {
+                    let message = 'Error de geolocalización.';
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            message = 'Permiso de geolocalización denegado.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            message = 'Ubicación no disponible.';
+                            break;
+                        case error.TIMEOUT:
+                            message = 'Tiempo de espera agotado al obtener la ubicación.';
+                            break;
+                        default:
+                            message = 'Error de geolocalización: ' + error.message;
+                            break;
+                    }
+                    showStatusForm(message, 'error');
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+    });
+</script>

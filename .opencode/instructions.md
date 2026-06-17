@@ -15,8 +15,6 @@ Reglas:
 - Evitar Service Layer innecesario.
 - Preferir convenciones Laravel.
 - Policies para autorización.
-- Tests obligatorios.
-- Pint obligatorio.
 - No modificar README ni AGENTS salvo que se solicite.
 - No crear tablas nuevas sin aprobación.
 - Proponer antes de implementar cambios grandes.
@@ -27,4 +25,4 @@ Reglas:
 - No afirmar que una funcionalidad está implementada sin verificar los archivos afectados.
 - No modificar archivos fuera del alcance aprobado.
 - Informar siempre qué archivos serán modificados antes de implementar.
-- No ejecutar tests y Pint después de cada implementación.
+- Nunca ejecutar tests, pint ni npm run build después de cada implementación.

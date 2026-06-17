@@ -17,7 +17,7 @@ Aplicación Laravel para administrar usuarios y marcadores georreferenciados sob
 - Laravel 13.
 - Blade.
 - Tailwind CSS si el instalador o starter elegido lo incluye.
-- Leaflet para mapas.
+- Leaflet + CARTO para mapas.
 - MySQL.
 
 ## Arquitectura Laravel
@@ -78,7 +78,7 @@ Mantener roles simples implementados como strings en users.
 
 ## Estado De Trabajo
 
-Versión actual: v1.2.0
+Versión actual: v1.3.0
 
 ### Funcionalidades del MVP:
 - autenticación;
@@ -99,18 +99,32 @@ v1.1.0
 - ordenamientos;
 - colores por tipo en mapa.
 
+v1.1.1
+- favicon;
+- branding y logo oficial;
+- mejoras UX.
+
 v1.2.0
 - selector de tema (light, dark, system);
 - persistencia de preferencia;
-- cambio dinámico de branding;
+- cambio dinámico de branding.
+
+v1.2.1
+- adaptación visual completa para dark mode;
+- revisión de componentes compartidos;
+- revisión de contrastes.
+
+v1.2.2
+- mapa compatible con tema claro y oscuro;
+- integración con CARTO;
+- cambio dinámico de tiles según tema.
+
+v1.3.0
+- geolocalización en mapa;
+- geolocalización en formulario;
+- manejo de permisos, timeout y errores de geolocalización.
 
 ### Mejoras futuras:
-- adaptación visual completa para dark mode;
-- revisión de contrastes;
-- tablas y formularios en dark mode;
-- dashboard consistente entre temas;
-- revisión visual de componentes compartidos;
-- geolocalización;
 - filtros en mapa;
 - API pública;
 - autenticación por tokens;
