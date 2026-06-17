@@ -4,8 +4,6 @@
 
 Marcadores surge como una reimplementación moderna de un sistema previo desarrollado en PHP [`Marcadores`](https://github.com/borquezln/marcadores). 
 
-Marcadores surge como una reimplementación moderna de un sistema previo desarrollado en PHP.
-
 ---
 
 ## Objetivo De Esta Versión
@@ -15,7 +13,8 @@ Marcadores es una aplicación Laravel para administrar usuarios y marcadores geo
 Permite:
 - gestionar usuarios;
 - administrar marcadores;
-- visualizar información geográfica mediante Leaflet y OpenStreetMap.
+- visualizar información geográfica mediante Leaflet y CARTO;
+- Utilizar gelocalización en mapa y carga de marcadores.
 
 ---
 
@@ -25,7 +24,7 @@ Permite:
 - Laravel 13
 - Blade
 - Leaflet
-- OpenStreetMap
+- CARTO Positron / Dark Matter
 - MySQL
 - Vite
 - Tailwind CSS incluido por Breeze Blade
@@ -83,7 +82,7 @@ Las coordenadas deben guardarse como valores decimales, no como `string` ni `flo
 
 ## Estado Actual
 
-Versión: v1.2.0
+Versión: v1.3.0
 
 ### Funcionalidades
 
@@ -101,22 +100,29 @@ Versión: v1.2.0
 - selector de tema (claro, oscuro, sistema);
 - persistencia de preferencia;
 - cambio automático de logo según tema;
+- adaptación de tablas y formularios en dark mode;
+- adaptación de mapa en dark mode;
+- geolocalización;
 - tests automatizados.
 
 ### Roadmap:
 
-### v1.2.1
+v1.3.1:
+- filtros en mapa.
 
-- adaptación visual completa para dark mode;
-- revisión de contrastes;
-- tablas y formularios en dark mode;
-- dashboard consistente entre temas;
-- revisión visual de componentes compartidos.
+v1.3.2:
+- deuda técnica y visual.
 
-### v1.3.0 +
+v1.4.0:
+- dashboard de estadísticas;
 
-- geolocalización;
-- filtros en mapa;
+v1.4.1:
+- paginación;
+
+v1.5.0:
+- auditoría de calidad;
+
+v2.0.0:
 - API pública;
 - autenticación por tokens;
 - documentación de API;

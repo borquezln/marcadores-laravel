@@ -27,14 +27,23 @@
                         </p>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 dark:border-neutral-600 bg-gray-50 dark:bg-[#3d3d3d] px-3 py-2">
-                        @foreach ($types as $value => $label)
-                            <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-600 bg-white dark:bg-[#323232] px-3 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 shadow-sm">
-                                <span class="h-2.5 w-2.5 rounded-full" style="background-color: {{ $typeColors[$value] ?? '#6b7280' }}"></span>
-                                {{ $label }}
-                            </span>
-                        @endforeach
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 dark:border-neutral-600 bg-gray-50 dark:bg-[#3d3d3d] px-3 py-2">
+                            @foreach ($types as $value => $label)
+                                <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-600 bg-white dark:bg-[#323232] px-3 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 shadow-sm">
+                                    <span class="h-2.5 w-2.5 rounded-full" style="background-color: {{ $typeColors[$value] ?? '#6b7280' }}"></span>
+                                    {{ $label }}
+                                </span>
+                            @endforeach
+                        </div>
+                        <div>
+                            <x-secondary-button id="get-my-location-map" type="button">
+                                Mi ubicación
+                            </x-secondary-button>
+                        </div>
                     </div>
+
+                    <div id="geolocation-status-map" class="hidden text-sm p-3 rounded-md"></div>
 
                     <link
                         rel="stylesheet"
@@ -158,6 +167,81 @@
 
                         requestAnimationFrame(resizeMap);
                         window.addEventListener('load', resizeMap, { once: true });
+
+                        const statusMap = document.getElementById('geolocation-status-map');
+                        const showStatusMap = (text, type) => {
+                            statusMap.className = 'text-sm p-3 rounded-md border mb-4';
+                            if (type === 'loading') {
+                                statusMap.classList.add('border-blue-200', 'dark:border-blue-800', 'bg-blue-50', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+                            } else if (type === 'error') {
+                                statusMap.classList.add('border-red-200', 'dark:border-red-800', 'bg-red-50', 'dark:bg-red-900/30', 'text-red-700', 'dark:text-red-300');
+                            }
+                            statusMap.textContent = text;
+                            statusMap.classList.remove('hidden');
+                        };
+                        const hideStatusMap = () => {
+                            statusMap.classList.add('hidden');
+                        };
+
+                        const btnMap = document.getElementById('get-my-location-map');
+                        let userMarker = null;
+
+                        btnMap.addEventListener('click', () => {
+                            if (!navigator.geolocation) {
+                                showStatusMap('La geolocalización no está soportada por este navegador.', 'error');
+                                return;
+                            }
+
+                            showStatusMap('Cargando ubicación...', 'loading');
+
+                            navigator.geolocation.getCurrentPosition(
+                                (position) => {
+                                    hideStatusMap();
+                                    const lat = position.coords.latitude;
+                                    const lng = position.coords.longitude;
+
+                                    if (userMarker) {
+                                        map.removeLayer(userMarker);
+                                    }
+
+                                    userMarker = L.circleMarker([lat, lng], {
+                                        radius: 10,
+                                        fillColor: '#3b82f6',
+                                        color: '#ffffff',
+                                        weight: 3,
+                                        opacity: 1,
+                                        fillOpacity: 1
+                                    })
+                                    .addTo(map)
+                                    .bindPopup('Tu ubicación actual');
+
+                                    map.setView([lat, lng], 16);
+                                },
+                                (error) => {
+                                    let message = 'Error de geolocalización.';
+                                    switch (error.code) {
+                                        case error.PERMISSION_DENIED:
+                                            message = 'Permiso de geolocalización denegado.';
+                                            break;
+                                        case error.POSITION_UNAVAILABLE:
+                                            message = 'Ubicación no disponible.';
+                                            break;
+                                        case error.TIMEOUT:
+                                            message = 'Tiempo de espera agotado al obtener la ubicación.';
+                                            break;
+                                        default:
+                                            message = 'Error de geolocalización: ' + error.message;
+                                            break;
+                                    }
+                                    showStatusMap(message, 'error');
+                                },
+                                {
+                                    enableHighAccuracy: true,
+                                    timeout: 10000,
+                                    maximumAge: 0
+                                }
+                            );
+                        });
                     </script>
                 </div>
             </div>
